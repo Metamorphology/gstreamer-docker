@@ -1,2 +1,3 @@
 # gstreamer-docker
-GStreamer builds in a form of Docker images
+
+GStreamer builds in a form of a bare Docker image.

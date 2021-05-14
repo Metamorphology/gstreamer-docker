@@ -1,0 +1,31 @@
+FROM debian:buster-slim
+
+ARG VERSION
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo \
+    ca-certificates \
+    apt-utils \
+    build-essential \
+    python3 \
+    python3-setuptools \
+    git && \
+    \
+    git clone -b ${VERSION} https://gitlab.freedesktop.org/gstreamer/cerbero.git
+
+RUN mkdir $HOME/.cerbero && \
+    echo "allow_parallel_build=True" > $HOME/.cerbero/cerbero.cbc && \
+    echo "use_ccache=True" >> $HOME/.cerbero/cerbero.cbc && \
+    cd cerbero && \
+        echo "local_sources=\"/cerbero/cerbero-sources\"" >> localconf.cbc && \
+        echo "home_dir=\"/cerbero/cerbero-build\"" >> localconf.cbc && \
+        echo "prefix=\"/usr/local\"" >> localconf.cbc && \
+        echo "variants.override(['notestspackage'])"  >> localconf.cbc && \
+        ./cerbero-uninstalled -t -c localconf.cbc show-config && \
+        ./cerbero-uninstalled -t -c localconf.cbc fetch-bootstrap && \
+        ./cerbero-uninstalled -t -c localconf.cbc fetch-package gstreamer-1.0 && \
+        ./cerbero-uninstalled -t -c localconf.cbc bootstrap -y && \
+        ./cerbero-uninstalled -t -c localconf.cbc package gstreamer-1.0
+
+FROM scratch
+COPY --from=0 /cerbero/gstreamer-1.0-*.tar.xz /

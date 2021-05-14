@@ -1,0 +1,36 @@
+name: Debian GStreamer image
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      version:
+        description: 'GStreamer version'
+        default: '1.18.4'
+        required: true
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: false
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v1.1.1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}/gstreamer-docker
+          path: ./
+          dockerfile: ./Dockerfile.debian
+          build_args: VERSION=${{ github.event.inputs.version }}
+          tags: ${{ github.event.inputs.version }}-debian
+          push: true
+          tag_with_ref: false
+          tag_with_sha: false
