@@ -48,7 +48,7 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile.debian
-          build_args: VERSION=${{ github.event.inputs.version }}
+          build-args: VERSION=${{ github.event.inputs.version }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           
