@@ -20,17 +20,35 @@ jobs:
         with:
           submodules: false
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v1.1.1
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
         with:
-          registry: docker.pkg.github.com
+          # list of Docker images to use as base name for tags
+          images: |
+            ghcr.io/${{ github.repository }}/gstreamer-docker
+          # generate Docker tags based on the following events/attributes
+          flavor: |
+            latest=true
+          tags: |
+            type=raw,value={{ github.event.inputs.version }}-debian
+          
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}/gstreamer-docker
-          path: ./
-          dockerfile: ./Dockerfile.debian
+        
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile.debian
           build_args: VERSION=${{ github.event.inputs.version }}
-          tags: ${{ github.event.inputs.version }}-debian
           push: true
-          tag_with_ref: false
-          tag_with_sha: false
+          tags: ${{ steps.meta.outputs.tags }}
+          
