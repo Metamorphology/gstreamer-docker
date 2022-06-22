@@ -35,7 +35,7 @@ RUN apt-get update \
 
 
 # copy GStreamer packages from the gstreamer-docker image
-COPY --from=gst-distro /gstreamer-1.0-linux-x86_64-*.tar.xz /
+COPY --from=gst-distro /gstreamer-1.0-*.tar.xz /
 
 # setup GStreamer environment
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
@@ -43,7 +43,7 @@ ENV GST_PLUGIN_PATH=/usr/local/lib/gstreamer-1.0
 ENV GST_PLUGIN_SCANNER=/usr/local/libexec/gstreamer-1.0/gst-plugin-scanner
 
 # uncomment the following line if you don't need GStreamer development libraries in the target image
-# RUN rm /gstreamer-1.0-linux-x86_64-*-devel.tar.xz
+# RUN rm /gstreamer-1.0-*-devel.tar.xz
 
 # extract GStreamer files to your target image
 # the gst-inspect-1.0 invocation is optional, but it does two good things:
