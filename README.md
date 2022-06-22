@@ -50,9 +50,9 @@ ENV GST_PLUGIN_SCANNER=/usr/local/libexec/gstreamer-1.0/gst-plugin-scanner
 # 1. it shows whether GStreamer installation is usable and what plugins are available,
 # 2. it generates plugin cache so that your container wouldn't need to do that on startup.
 RUN cd /usr/local/ \
-    && tar xf /gstreamer-1.0-linux-x86_64-*.tar.xz \
+    && tar xf /gstreamer-1.0-*.tar.xz \
     && cd / \
-    && rm /gstreamer-1.0-linux-x86_64-*.tar.xz \
+    && rm /gstreamer-1.0-*.tar.xz \
     && gst-inspect-1.0 -b
 
 # ... add more setup for your image as needed
