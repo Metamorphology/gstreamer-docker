@@ -52,7 +52,7 @@ jobs:
           context: ./
           file: ./Dockerfile.debian
           build-args: VERSION=${{ github.event.inputs.version }}
-          platforms: linux/amd64,linux/arm/v8
+          platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
