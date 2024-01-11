@@ -5,6 +5,7 @@ ARG VERSION
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     ca-certificates \
+    curl \
     apt-utils \
     build-essential \
     python3 \
