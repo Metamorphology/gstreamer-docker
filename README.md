@@ -10,7 +10,7 @@ GStreamer builds in a form of a bare Docker image.
 # - specify it on the command line to docker build
 # - specify in docker-compose file
 # - specify in GitHub actions file
-ARG GSTREAMER_IMAGE=gstreamer-docker:1.18.4-debian
+ARG GSTREAMER_IMAGE=gstreamer-docker:1.22.8-debian
 
 # pull the gstreamer-docker image as a build step
 FROM ${GSTREAMER_IMAGE} AS gst-distro
