@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-venv \
     python3-setuptools \
     python3-certifi \
+    python3-distro \
     git && \
     \
     git clone -b ${VERSION} https://gitlab.freedesktop.org/gstreamer/cerbero.git
